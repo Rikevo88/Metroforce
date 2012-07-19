@@ -1,0 +1,18 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppLeadController">
+    <div id="content_y_scroller">
+		<div class="record_header">
+			<img src="{!IF(profilePictureUrl != null, profilePictureUrl, URLFOR($Resource.DefaultProfile))}" alt="" class="profile_picture float_left" />
+			<p class="name"><apex:outputText value="{!lead.FirstName} {!lead.LastName}" /></p>
+		</div>
+		<div class="record_content">
+            
+			<apex:repeat value="{!$ObjectType.Lead.FieldSets.AppLeadFields}" var="field">
+				<div class="field_wrapper">
+					<p class="field_label"><apex:outputText value="{!field.Label}" /></p>
+					<p class="field_value"><apex:outputField value="{!lead[field]}" /></p>
+				</div>
+			</apex:repeat>
+            
+		</div>
+    </div>
+</apex:page>

@@ -1,0 +1,69 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppContactsController">   
+    <div id="content_scroller">
+        <apex:repeat value="{!tileGroups}" var="tileGroup">
+            <section class="tile_group float_left" data-max-cols="1">
+                <header style="width: 100%;">
+                    <h2><apex:outputText value="{!tileGroup.header}" /></h2>
+                </header>
+                <section>
+                    <apex:repeat value="{!tileGroup.tiles}" var="tile">
+                        <apex:outputText escape="false" rendered="{!tile.largeTile}">
+                            <article class="tile large_tile {!tile.tileStyle}">
+                                <a href="{!URLFOR($Page.AppContactView)}?id={!tile.recordId}" data-page-title="{!tile.header}">
+                                    <div class="tile_background">
+                                        <header>
+                                            <p><apex:outputText value="{!tile.header}" /></p>
+                                        </header>
+                                        <section class="content">
+                                            <div class="half">
+                                                <div class="image">
+                                                    <img src="{!IF(tile.imageUrl != null, tile.imageUrl, IF(tile.tileStyle == 'account_tile', URLFOR($Resource.DefaultAccount), URLFOR($Resource.DefaultProfile)))}" alt="" />
+                                                </div>
+                                            </div>
+                                            <div class="half">
+                                                <apex:outputText escape="false" rendered="{!tile.actionFeed.size > 1}">
+                                                    <div class="tile_action_section">
+                                                        <apex:variable var="first" value="true" />
+                                                        <apex:repeat value="{!tile.actionFeed}" var="feedItem">
+                                                            <apex:outputText escape="false" rendered="{!first == 'true'}">
+                                                                <p><apex:outputText value="{!feedItem}" /></p>
+                                                            </apex:outputText>
+                                                            <apex:outputText escape="false" rendered="{!first != 'true'}">
+                                                                <p style="display: none;"><apex:outputText value="{!feedItem}" /></p>
+                                                            </apex:outputText>
+                                                            <apex:variable var="first" value="false" />
+                                                        </apex:repeat>
+                                                    </div>
+                                                </apex:outputText>
+                                                <apex:outputText escape="false" rendered="{!tile.actionFeed.size == 1}">
+                                                    <div>
+                                                        <p><apex:outputText value="{!tile.actionFeed[0]}" /></p>
+                                                    </div>
+                                                </apex:outputText>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </a>
+                            </article>
+                        </apex:outputText>
+                        <apex:outputText escape="false" rendered="{!!tile.largeTile}">
+                            <article class="tile small_tile {!tile.tileStyle}">
+                                <a href="{!URLFOR($Page.AppContactView)}?id={!tile.recordId}" data-page-title="{!tile.header}">
+                                    <div class="tile_background">
+                                        <header>
+                                            <p><apex:outputText value="{!tile.header}" /></p>
+                                        </header>
+                                        <div class="image">
+                                            <img src="{!IF(tile.imageUrl != null, tile.imageUrl, IF(tile.tileStyle == 'account_tile', URLFOR($Resource.DefaultAccount), URLFOR($Resource.DefaultProfile)))}" alt="" />
+                                        </div>
+                                    </div>
+                                </a>
+                            </article>
+                        </apex:outputText>
+                    </apex:repeat>
+                </section>
+            </section>
+        </apex:repeat>
+        <c:AppMenu />
+    </div>
+</apex:page>

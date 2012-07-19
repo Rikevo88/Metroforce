@@ -1,0 +1,149 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppController">
+<html>
+    <head>
+        <title><apex:outputText value="{!$Label.AppName}" /></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="apple-touch-icon" href="{!URLFOR($Resource.AppIcon)}" />
+        <script type="text/javascript" src="{!URLFOR($Resource.jQueryMin)}"></script>
+        <script type="text/javascript" src="{!URLFOR($Resource.jQueryTimer)}"></script>
+        <script type="text/javascript" src="{!URLFOR($Resource.jQueryMobileMin)}"></script>
+        <script type="text/javascript" src="{!URLFOR($Resource.iScroll, "iscroll.js")}"></script>
+        <script type="text/javascript" src="{!$Resource.jMetroforce}"></script>
+        <script type="text/javascript">
+            // Globals
+            var browserWidth;
+            var browserHeight;
+        
+            var headerHeight;
+            var footerHeight;
+            var appHeight;
+            var tileGroupPadding;
+            
+            var h2Height = $("h2").first().height();
+            
+            var numberOfTileRows = (browserHeight < 800) ? 3 : (browserHeight < 1000) ? 4 : 5;
+            var tileHeight = Math.floor(((appHeight - h2Height) / numberOfTileRows) - 10);
+            
+            function setGlobals() {
+                browserWidth = window.innerWidth;
+                browserHeight = window.innerHeight;
+            
+                headerHeight = Math.floor(browserHeight * 0.1);
+                footerHeight = Math.floor(browserHeight * 0.05);
+                appHeight = Math.floor(browserHeight * 0.85);
+                tileGroupPadding = 30;
+                
+                h2Height = $("h2").first().height();
+            
+                numberOfTileRows = (browserHeight < 800) ? 3 : (browserHeight < 1000) ? 4 : 5;
+                tileHeight = Math.floor(((appHeight - h2Height) / numberOfTileRows) - 10);
+            }
+            
+            function renderPage() {
+                $("#app_header").height(headerHeight).css("margin-left", tileGroupPadding + "px").css("margin-right", tileGroupPadding + "px");
+                $("#app_footer").height(footerHeight).css("margin-left", tileGroupPadding + "px").css("margin-right", tileGroupPadding + "px");
+            
+                $(".tile").height(tileHeight);
+                $(".large_tile").width((tileHeight * 2) + 10);
+                $(".small_tile").width(tileHeight);
+                $(".tile_group").css("margin-left", tileGroupPadding + "px").height(appHeight);
+
+                var appWidth = tileGroupPadding;
+
+                $(".tile_group").each(function(index) {
+                    var maxNumberOfCols = $(this).attr("data-max-cols");
+                    var $section = $(this).children("section");
+                    var numberOfChildRows = 0;
+                    var previousTileSmall = false;
+                    $section.children(".tile").each(function() {
+                        numberOfChildRows += (!previousTileSmall) ? 1 : 
+                            ($(this).hasClass("large_tile")) ? 1 : 0;
+                        
+                        if ($(this).hasClass("small_tile") && previousTileSmall) {
+                            previousTileSmall = false;
+                        }
+                        else if ($(this).hasClass("small_tile")) {
+                            previousTileSmall = true;
+                        }
+                        else {
+                            previousTileSmall = false;
+                        }
+                    });
+
+                    var $numberOfChildren = $section.children(".tile").size();
+//if (maxNumberOfCols == null) {
+                        var numberOfColumns = Math.ceil(numberOfChildRows / numberOfTileRows);
+//                    }
+//                    else {
+//                        var numberOfColumns = maxNumberOfCols;
+//                    }
+                    
+                    var columnWidth = (tileHeight * 2) + 20;
+                    var groupWidth = columnWidth * numberOfColumns;
+                    appWidth += (groupWidth + tileGroupPadding);
+
+                    $section.width(groupWidth).height((tileHeight + 10) * numberOfTileRows);
+                    $section.css("-moz-column-gap", 0).css("-webkit-column-gap", 0).css("column-gap", 0);
+                    $section.css({"-webkit-columns": (tileHeight * 2) + "px " + numberOfColumns});
+                });
+
+                $("#content_scroller").width(appWidth);
+            }
+            
+            $(document).ready(function() {
+                setGlobals();
+                renderPage();
+                var myScroll = new iScroll("app_content", { bounce:false});
+                document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+                /** EXPERIMENTAL!!! **/
+//$("body").css("display", "none");
+             
+//                $("body").fadeIn(2000);
+             
+/*
+                $("a").click(function(event){
+                    event.preventDefault();
+                    var link = $(this).attr("href");
+                    
+                    $("#app_content").fadeOut(1000, function() {
+                                $("#app_content").load(link, function() {
+                                        renderPage();
+                                        $("#app_content").fadeIn(1000, function() {
+                                            var myScroll = new iScroll("app_content", { bounce:false});
+                                        });
+                                    });
+                                });    
+                    });
+*/
+                    
+                /** END OF EXPERIMENTAL!!! **/
+            });
+        </script>
+        <apex:insert name="javascript" />
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSBasic)}" />
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSMetro)}" />
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSThemeGreen)}" />
+    </head>
+    <body>
+        <div id="app_wrapper" data-role="page">
+            <header id="app_header" data-role="header">
+                <apex:insert name="header">
+                    <c:AppHeader />
+                </apex:insert>
+            </header>
+            <section id="app_content" class="clear" data-role="content">
+                <apex:insert name="content" />
+            </section>
+            <footer id="app_footer" class="clear" data-role="footer">
+                <apex:insert name="footer">
+                    <c:AppFooter />
+                </apex:insert>
+            </footer>
+        </div>
+    </body>
+</html>
+</apex:page>

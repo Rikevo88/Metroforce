@@ -1,0 +1,4 @@
+<apex:page controller="do.DoControllerExtension"
+           action="{!redirectToDoCreateProject}">
+  Redirecting to Do&hellip;
+</apex:page>

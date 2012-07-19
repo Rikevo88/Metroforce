@@ -1,0 +1,83 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false"  standardController="Lead">
+    
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSBasic)}" />
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSMetro)}" />
+    <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSThemeGreen)}" />
+    
+    <style>
+        body {
+            overflow: visible;
+            background-color:#92CD00;
+        }
+        
+        input[type="text"]{
+            border-radius: 5px; 
+            -moz-border-radius: 5px; 
+            -webkit-border-radius: 5px; 
+            border: 8px solid #A0E000;
+            color: #000;
+        }
+        
+        select {
+            border-radius: 5px; 
+            -moz-border-radius: 5px; 
+            -webkit-border-radius: 5px; 
+            border: 8px solid #A0E000;
+            color: #000;
+        }
+        
+        option {
+            color: #000;
+        }
+        
+        textarea {
+            border-radius: 5px; 
+            -moz-border-radius: 5px; 
+            -webkit-border-radius: 5px; 
+            border: 8px solid #A0E000;
+            color: #000;
+        }
+    </style>
+    
+    <apex:form >
+        <section style="display:block" class="clear">
+            <div style="width:100%; margin: 0 auto;">
+                <apex:repeat value="{!$ObjectType.Lead.FieldSets.AppLeadFileds}" var="f">
+                    
+                    <div style="display:inline; float:left; width:50%; text-align:right; margin-right:-20px; height:60px;">
+                        <apex:outputText value="{!f.label}" style="padding-right: 20px; vertical-align:text-top;" />
+                    </div>
+                    <div style="display:inline; float:right; width:50%; text-align:left; height:60px;">
+                        <apex:outputText value="            " />
+                        <apex:inputField value="{!Lead[f]}" style="padding: 2px 10px; font-weight:bold;" /><br/>
+                    </div>  
+                </apex:repeat>
+            </div>
+        </section>
+        <div class="float_right" style="margin-right: 50px;">
+            <p class="first_name"><apex:commandLink action="{!save}" oncomplete="loadAfterSave()">Save</apex:commandLink></p>
+        </div>
+    </apex:form> 
+    
+    <script type="text/javascript">
+            
+            function loadAfterSave() {
+                alert('complete');
+        /*
+                event.preventDefault();
+                    var link = $(this).attr("href");
+                    
+                    $("#app_content").fadeOut(250, function() {
+                        $("#app_content").load(link, function() {
+                                renderPage();
+                                $("body").animate({backgroundColor:"#92CD00;"}, 500, function() {                                  
+                                    var myScroll = new iScroll("app_content", { bounce:false});
+                                });
+
+                        });
+                    });
+*/
+            }
+    </script>
+    
+</apex:page>

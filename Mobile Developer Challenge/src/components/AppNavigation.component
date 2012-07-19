@@ -1,0 +1,10 @@
+<apex:component selfClosing="true" controller="AppPageNameMap">
+            
+    <apex:outputPanel rendered="{!!isHomePage}">
+        <a href="{!previousPage}"><apex:image value="{!$Resource.BackButton}" width="30px" height="30px" alt="Back"/></a>
+        <apex:outputText value="{!tab}" />
+    </apex:outputPanel>            
+             
+    <apex:outputText value="{!PreviousPage}" />
+    
+</apex:component>

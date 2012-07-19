@@ -1,0 +1,27 @@
+<apex:component selfClosing="true" controller="AppController">
+    <p id="back_button" class="float_left">
+        <a href="#" id="back_button_link" data-back-button="true">
+            <img src="{!URLFOR($Resource.BackButton)}" alt="Back" style="margin-top: 18px; width: 30px; height: 30px;" />
+        </a>
+    </p>
+    <h1 id="page_title" class="float_left">
+        <apex:outputText value="{!$Label.AppName}" />
+    </h1>
+    <!--
+    <h1 class="float_left">
+        <div id="AppNav">
+            <apex:include pageName="AppNavigationPage"/>
+        </div>  
+    </h1>
+    -->
+    
+    <div class="float_right">
+        <div class="float_right" style="margin-left: 10px;">
+            <img src="{!URLFOR(user.SmallPhotoUrl)}" alt="{!user.FirstName} {!user.LastName}" />
+        </div>
+        <div class="float_right">
+            <p class="first_name"><apex:outputText value="{!user.FirstName}" /></p>
+            <p class="last_name"><apex:outputText value="{!user.LastName}" /></p>
+        </div>
+    </div>
+</apex:component>

@@ -1,0 +1,49 @@
+<apex:page cache="false" showHeader="false" sidebar="false" standardStylesheets="false" contentType="text/css">
+    /** Common HTML Elements **/
+    * {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        font-size: 100%;
+        font-family: "Segoe UI", "Calibri", arial, sans-serif;
+    }
+    body {
+        overflow: hidden;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.7em;
+    }
+    h3 {
+        font-size: 1.4em;
+    }
+    p {
+        font-size: 1em;
+    }
+    a {
+        border: none;
+        text-decoration: none;
+    }
+    image {
+        border: none;
+    }
+    
+    /** Common Style Classes **/
+    .float_left {
+        float: left;
+        text-align: left;
+    }
+    .float_right {
+        float: right;
+        text-align: right;
+    }
+    .clear {
+        clear: both;
+    }
+    .centre {
+        text-align: center;
+        margin: auto;
+    }
+</apex:page>

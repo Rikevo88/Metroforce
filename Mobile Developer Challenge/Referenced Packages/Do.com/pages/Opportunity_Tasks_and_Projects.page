@@ -1,0 +1,4 @@
+<apex:page standardController="Opportunity" 
+    extensions="do.DoControllerExtension" showHeader="false">
+  <apex:iframe src="{!baseUrl}/salesforce/projects?salesforce_record_id={!record.Id}&salesforce_partner_url={!$Api.Partner_Server_URL_230}&salesforce_sid={!$Api.Session_ID}&salesforce_authenticity_token={!authenticityToken}" height="400" width="100%" />
+</apex:page>

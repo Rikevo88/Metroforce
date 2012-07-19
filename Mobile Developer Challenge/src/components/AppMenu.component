@@ -1,0 +1,107 @@
+<apex:component selfClosing="true" controller="AppController">
+    <section id="app_menu" class="tile_group float_left">
+        <header style="width: 100%;">
+            <h2><apex:outputText value="{!$Label.Menu}" /></h2>
+        </header>
+        <section>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppHome))}">
+                <article class="tile small_tile home_tile">
+                    <a href="{!URLFOR($Page.AppHome)}" data-page-title="{!$Label.AppName}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuHome}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.HomeIcon)}" alt="{!$Label.MenuHome}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppContacts))}">
+                <article class="tile small_tile home_tile">
+                    <a href="{!URLFOR($Page.AppContacts)}" data-page-title="{!$Label.MenuContacts}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuContacts}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.ContactsIcon)}" alt="{!$Label.MenuContacts}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppAccounts))}">
+                <article class="tile small_tile account_tile">
+                    <a href="{!URLFOR($Page.AppAccounts)}" data-page-title="{!$Label.MenuAccounts}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuAccounts}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.AccountIcon)}" alt="{!$Label.MenuAccounts}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppLeads))}">
+                <article class="tile small_tile lead_tile">
+                    <a href="{!URLFOR($Page.AppLeads)}" data-page-title="{!$Label.MenuLeads}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuLeads}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.LeadsIcon)}" alt="{!$Label.MenuLeads}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppChatter))}">
+                <article class="tile small_tile chatter_tile">
+                    <a href="{!URLFOR($Page.AppChatter)}" data-page-title="{!$Label.MenuChatter}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuChatter}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.ChatterIcon)}" alt="{!$Label.MenuChatter}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppMap))}">
+                <article class="tile small_tile map_tile">
+                    <a href="{!URLFOR($Page.AppMap)}" data-page-title="{!$Label.MenuMap}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuMap}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.MapIcon)}" alt="{!$Label.MenuMap}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+            <apex:outputText escape="false" rendered="{!!begins($CurrentPage.URL, URLFOR($Page.AppEvents))}">
+                <article class="tile small_tile event_tile">
+                    <a href="{!URLFOR($Page.AppEvents)}" data-page-title="{!$Label.MenuEvents}">
+                        <div class="tile_background">
+                            <header>
+                                <p><apex:outputText value="{!$Label.MenuEvents}" /></p>
+                            </header>
+                            <div class="image">
+                                <img src="{!URLFOR($Resource.EventsIcon)}" alt="{!$Label.MenuEvents}" />
+                            </div>
+                        </div>
+                    </a>
+                </article>
+            </apex:outputText>
+        </section>
+    </section>
+</apex:component>

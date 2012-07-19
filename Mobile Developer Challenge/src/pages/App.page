@@ -1,0 +1,35 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppHomeController">
+    <apex:composition template="{!$Page.AppTemplate}">      
+        <apex:define name="javascript">
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    var timer = $.timer(
+                        function() {
+                            $(".tile_action_section").each(function(parentIndex) {
+                                var lastChild = $(this).children(":last");
+                                
+                                $(".tile_action_section").children().each(function(childIndex) {
+                                    if ($(this).is(":visible")) {
+                                        $(this).fadeOut(2000, function() {
+                                            if ($(this).html() != lastChild.html()) {
+                                                $(this).next(":hidden").fadeIn(2000);
+                                            }
+                                            else {
+                                                $(this).parent().children().first(":hidden").fadeIn(2000);
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        },
+                        8000,
+                        true
+                    );  
+                });
+            </script>
+        </apex:define>
+        <apex:define name="content">
+
+        </apex:define>
+    </apex:composition>
+</apex:page>

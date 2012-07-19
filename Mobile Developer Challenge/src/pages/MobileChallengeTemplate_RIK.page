@@ -1,0 +1,285 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false">
+
+<apex:includeScript value="{!$Resource.cometd}"/>
+<apex:includeScript value="{!$Resource.jQueryMin}"/>
+<apex:includeScript value="{!$Resource.json2}"/>
+<apex:includeScript value="{!$Resource.jquery_cometd}"/>
+
+<script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+        
+        
+            // Connect to the CometD endpoint
+            $.cometd.init({
+                url: window.location.protocol+'//'+window.location.hostname+'/cometd/24.0/',
+                requestHeaders: { Authorization: 'OAuth {!$Api.Session_ID}'}
+            });
+        
+        
+            // Subscribe to a topic. JSON-encoded update will be returned
+            // in the callback
+            $.cometd.subscribe('/topic/NewContact', function(message) {         
+            
+                var animationStartHeight = (smallTileWidth+(smallTileWidth*0.1));
+                var additionalWidth = (smallTileWidth*0.1);
+                var halfAdditionalWidth = (additionalWidth/2);
+ 
+ 
+                if(rowNumberInNewColumn > 3) {   
+                    rowNumberInNewColumn = 0;  
+                    ++totalColumnCount;       
+                    $('#app_content').append('<section id="tilecolumn'+totalColumnCount+'" class="tile_column" style="width: '+columnWidth+'px; padding-bottom: 51px;"></section>');
+                }
+                
+            
+                $('#tilecolumn'+totalColumnCount).append(                  
+                
+                    '<div id="section'+totalColumnCount+''+rowNumberInNewColumn +''+spacePosition+'" class="tile small_tile" style="height:'+animationStartHeight+'px; width:'+animationStartHeight+'px; opacity:0.1; margin: '+(-halfAdditionalWidth)+'px '+additionalWidth+'px '+additionalWidth+'px '+(-halfAdditionalWidth)+'px;">' +
+                        '<article>' +
+                            JSON.stringify(message.data.sobject.Name) +
+                        '</article>' +
+                    '</div>');
+                              
+                    
+                $('#section'+totalColumnCount+''+rowNumberInNewColumn+''+spacePosition).animate({
+                    width: smallTileWidth,
+                    height: smallTileWidth,
+                    margin: 0,
+                    opacity: 1
+                  }, 250);  
+                
+                
+                if(spacePosition == 1) {
+                    ++spacePosition;
+                } else if(spacePosition == 2){
+                    ++rowNumberInNewColumn;
+                     spacePosition = 1;   
+                }
+                
+                
+            });
+            
+        });
+    })(jQuery)
+</script>
+
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+        <script type="text/javascript" src="{!URLFOR($Resource.jQueryMin)}"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $initialiseApp;
+            });
+            
+            var spacePosition = 1;
+            
+            var rowNumberInNewColumn = 4;
+            var totalColumnCount = 4;
+            
+            var browserWidth = window.innerWidth;
+            var browserHeight = window.innerHeight;
+        
+            var numberOfColumns = 5;
+            var numberOfTileRows = 4;
+            
+            var headerHeight = 101;
+            var footerHeight = 51;
+            
+            var appHeight = browserHeight - headerHeight - footerHeight;
+            var tileHeight = (appHeight / numberOfTileRows);
+            var largeTileWidth = (tileHeight * 2) - 10;
+            var smallTileWidth = tileHeight - 10;
+                
+            //tileHeight = tileHeight - 10;
+            var columnWidth = (tileHeight * 2);
+            var appPadding = browserWidth * 0.05;
+            var appWidth = (columnWidth * numberOfColumns) + (appPadding * 2);
+            
+            //var largeTileWidth = columnWidth - 10;
+            //var smallTileWidth = (columnWidth / 2) - 10;
+            //var tileHeight = smallTileWidth;
+            
+            
+            
+            var $initialiseApp = $(function() {
+                $(".tile").css("height", smallTileWidth);
+                $("#app_content").css("width", appWidth).css("height", appHeight);
+                $(".tile_column").css("width", columnWidth).css("padding-bottom", "51px");
+                $(".large_tile").css("width", largeTileWidth);
+                $(".small_tile").css("width", smallTileWidth);
+                //$(".large_tile article").css("margin", "10px");
+                //$(".small_tile article").css("margin", "10px");
+                
+                $("#app_header header:first-child").css("margin-left", appPadding);
+                //$("#app_header div:last-child").css("margin-right", appPadding);
+                $(".tile_column").first().css("margin-left", appPadding);
+                //$(".tile_column").last().css("margin-right", appPadding);
+            });
+            
+            $(function() {
+                $("a").click(function(event) {
+                    event.preventDefault();
+                    var href = $(this).attr("href");
+                    var pageTitle = $(this).attr("data-page-title");
+                    $("#page_title").html(pageTitle);
+                    $("#app_content").load(href);
+                    $initialiseApp;
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="app_container">
+            <section id="app_header">
+                <header class="float_left">
+                    <h1 id="page_title">&lt;app name&gt;</h1>
+                </header>
+                <div class="float_right">
+                    <img src="images/profile.png" id="profile_picture" class="float_right" />
+                    <div class="float_left">
+                        <p id="profile_forename">William</p>
+                        <p id="profile_surname">Goulding</p>
+                    </div>
+                </div>
+            </section>
+            <section id="app_content">
+                <section class="tile_column first_column">
+                    <a href="test-page.html" data-page-title="Test Page">
+                    <div class="tile large_tile">
+                        <article>
+                            <section class="tile_main">
+                            </section>
+                            <section class="tile_title">
+                                Large Tile
+                            </section>
+                        </article>
+                    </div>
+                    </a>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                </section>
+                <section class="tile_column">
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                </section>  
+                <section class="tile_column">
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                </section>  
+                <section class="tile_column">
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile small_tile">
+                        <article>
+                            Small Tile
+                        </article>
+                    </div>
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                    <div class="tile large_tile">
+                        <article>
+                            Large Tile
+                        </article>
+                    </div>
+                </section>
+            </section>
+            <footer id="app_footer">
+                <p>Designed and Developed by William Goulding &amp; Richard Evans.</p>
+                <p>&copy; 2012 Richard Evans &amp; William Goulding</p>
+            </footer>
+        </div>
+    </body>
+</html>
+</apex:page>

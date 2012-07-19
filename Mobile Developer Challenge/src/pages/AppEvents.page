@@ -1,0 +1,74 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppEventsController">   
+    <div id="content_scroller">
+        <apex:repeat value="{!tileGroups}" var="tileGroup">
+            <section class="tile_group float_left" data-max-cols="1">
+                <header style="width: 100%;">
+                    <h2><apex:outputText value="{!tileGroup.header}" /></h2>
+                </header>
+                <section>
+                    <apex:repeat value="{!tileGroup.tiles}" var="tile">                     
+                        <apex:outputText escape="false" rendered="{!tile.tileStyle == 'event_tile'}">
+                            <article class="tile large_tile {!tile.tileStyle}">
+                                <a href="{!URLFOR($Page.AppEventView)}?id={!tile.recordId}" data-page-title="{!tile.header}">
+                                    <div class="tile_background">
+                                        <header>
+                                            <p><apex:outputText value="{!tile.header}" /></p>
+                                        </header>
+                                        <section class="content">
+                                            <div class="half">
+                                                <apex:outputText escape="false" rendered="{!!ISBLANK(tile.event.description)}">
+                                                    <div class="tile_action_section">
+                                                        <div class="image">
+                                                                <img style="max-width:100%;max-height:100%;" src="{!IF(tile.imageUrl != null, tile.imageUrl, IF(tile.tileStyle == 'account_tile', URLFOR($Resource.DefaultAccount), URLFOR($Resource.DefaultProfile)))}" alt="" />
+                                                        </div>
+                                                        <p style="display:none;"><apex:outputText value="{!tile.event.description}" /> </p>
+                                                    </div>
+                                                </apex:outputText>
+                                                <apex:outputText escape="false" rendered="{!ISBLANK(tile.event.description)}">
+                                                    <div class="image">
+                                                        <img src="{!IF(tile.imageUrl != null, tile.imageUrl, IF(tile.tileStyle == 'account_tile', URLFOR($Resource.DefaultAccount), URLFOR($Resource.DefaultProfile)))}" alt="" />
+                                                    </div>
+                                                </apex:outputText>
+                                            </div>
+                                            <div class="half">
+                                                <div class="date">
+                                                    <p class="time">
+                                                        <apex:outputPanel rendered="{!!tile.event.IsAllDayEvent}">
+                                                            <apex:outputText value="{0,time,HH:mm}">
+                                                                <apex:param value="{!tile.event.StartDateTime}" />
+                                                            </apex:outputText>
+                                                            <apex:outputText value=" - " />
+                                                            <apex:outputText value="{0,time,HH:mm}">
+                                                                <apex:param value="{!tile.event.EndDateTime}" />
+                                                            </apex:outputText>
+                                                        </apex:outputPanel>
+                                                        <apex:outputPanel rendered="{!tile.event.IsAllDayEvent}">
+                                                            <apex:outputText value="All Day" />
+                                                        </apex:outputPanel>
+                                                    </p>
+                                                    <p class="day">
+                                                        <apex:outputText value="{0,date,dd}">
+                                                            <apex:param value="{!tile.event.StartDateTime}" />
+                                                        </apex:outputText>
+                                                    </p>
+                                                    <p class="month">
+                                                        <apex:outputText value="{0,date,MMMMM}">
+                                                            <apex:param value="{!tile.event.StartDateTime}" />
+                                                        </apex:outputText>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </a>
+                            </article>
+                        </apex:outputText>
+                    </apex:repeat>
+                </section>
+            </section>
+        </apex:repeat>
+
+        <c:AppMenu />       
+    </div>
+
+</apex:page>

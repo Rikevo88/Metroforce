@@ -1,0 +1,165 @@
+<apex:page cache="false" showHeader="false" sidebar="false" standardStylesheets="false" contentType="text/css">
+    /** General (non-theme) Metro UI Styling **/
+    #app_header {
+        padding-top: 10px;
+    }
+    #back_button {
+    	line-height: 64px;
+    	margin-right: 10px; 
+    }
+    #page_title {
+    	line-height: 64px;
+    }
+    .first_name {
+        font-size: 1.8em;
+    }
+    .last_name {
+        font-size: 1.1em;
+    }
+    .tile {
+        padding: 5px;
+        float: left;
+    }
+    .tile .tile_background {
+        height: 100%;
+        width: 100%;
+        position: relative;
+    }
+    .tile .tile_background > header {
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+        z-index: 2;
+    }
+    .tile .tile_background > header > p {
+        text-align: center;
+        padding: 5px;
+    }
+    .small_tile .tile_background > .image {
+        height: 80%;
+        width: 80%;
+        text-align: center;
+        margin: auto;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        z-index: 1;
+    }
+    .small_tile .tile_background > .image > img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+    .large_tile .tile_background > .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        overflow: hidden;
+    }
+    .large_tile .tile_background > .content > .half {
+        height: 100%;
+        width: 50%;
+        float: left;
+        position: relative;
+    }
+    .large_tile .tile_background > .content > .half > div {
+        height: 80%;
+        width: 80%;
+        text-align: center;
+        margin: auto;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+    }
+    .large_tile .tile_background > .content > .half > span > div {
+        height: 80%;
+        width: 80%;
+        text-align: center;
+        margin: auto;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+    }
+    .large_tile .tile_background > .content > .half > .image > img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+    .large_tile .tile_background > .content > .half > span > .image > img {
+        max-height: 100%;
+        max-width: 100%;
+    }
+    .large_tile .tile_background > .content > .half > .date {
+        max-height: 70%;
+        max-width: 100%;
+    }
+    .large_tile .tile_background > .content > .half > .date > p.day {
+        font-size: 2em;
+        font-weight: bold;
+    }
+    .large_tile .tile_background > .content > .half > .date > p.month {
+        font-size: 1.8em;
+        font-weight: bold;
+    }
+    .large_tile .tile_background > .content > .half p.time {
+        font-size: 1.4em;
+    }
+    
+    #app_menu .small_tile .tile_background > .image {
+        height: 60%;
+        width: 60%;
+        top: 15%;
+        left: 20%;
+    }
+    #app_menu .large_tile .tile_background > .content > .half > div {
+        height: 60%;
+        width: 60%;
+        top: 15%;
+        left: 20%;
+    }
+    #content_y_scroller {
+    	overflow-y: auto;
+    	overflow-x: hidden;
+    	margin: 0 30px;
+    }
+    .record_header {
+    	width: 100%;
+    }
+    .record_header > .profile_picture, .record_header .profile_picture {
+    	max-height: 100px;
+    	max-width: 100px;
+    	margin-right: 10px;
+    }
+    .record_header > .name {
+	    line-height: 100px;
+	    font-size: 2.6em;
+    }
+    .record_content {
+    	width: 100%;
+    	-moz-column-count: 2; /* Firefox */
+		-webkit-column-count: 2; /* Safari and Chrome */
+		column-count: 2;
+		-moz-column-gap: 30px; /* Firefox */
+		-webkit-column-gap: 30px; /* Safari and Chrome */
+		column-gap: 30px;
+		margin: auto;
+    }
+    .record_content > .field_wrapper {
+    	padding: 10px 0 0 0;
+    }
+    .record_content > .field_wrapper > .field_label {
+    	
+    }
+    .record_content > .field_wrapper > .field_value {
+    	padding: 5px;
+    	width: 100%;
+    	min-height: 25px;
+    }
+    #app_footer {
+    	position: fixed;
+        left: 0;
+        right: 0;
+    	bottom: 0;
+    }
+</apex:page>

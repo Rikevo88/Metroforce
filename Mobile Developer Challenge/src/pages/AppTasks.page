@@ -1,0 +1,5 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppController">
+    <div id="content_scroller">
+        <c:AppMenu />
+    </div>
+</apex:page>

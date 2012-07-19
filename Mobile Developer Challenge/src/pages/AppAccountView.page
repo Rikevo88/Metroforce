@@ -1,0 +1,18 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppAccountController">   
+    <div id="content_scroller">
+    	<article id="record">
+			<header class="record_header">
+				<img src="{!IF(profilePictureUrl != null, profilePictureUrl, URLFOR($Resource.DefaultProfile))}" alt="" class="profile_picture float_left" />
+				<p class="name"><apex:outputText value="{!account.Name}" /></p>
+			</header>
+			<div class="record_content">
+				<apex:repeat value="{!$ObjectType.Account.FieldSets.AppAccountFields}" var="field">
+					<div class="field_wrapper">
+						<p class="field_label"><apex:outputText value="{!field.Label}" /></p>
+						<p class="field_value"><apex:outputField value="{!account[field]}" /></p>
+					</div>
+				</apex:repeat>
+			</div>
+		</article>
+    </div>
+</apex:page>

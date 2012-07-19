@@ -1,0 +1,16 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppContactController">   
+    <div id="content_y_scroller">
+		<div class="record_header">
+			<img src="{!IF(profilePictureUrl != null, profilePictureUrl, URLFOR($Resource.DefaultProfile))}" alt="" class="profile_picture float_left" />
+			<p class="name"><apex:outputText value="{!contact.FirstName} {!contact.LastName}" /></p>
+		</div>
+		<div class="record_content">
+			<apex:repeat value="{!$ObjectType.Contact.FieldSets.AppContactFields}" var="field">
+				<div class="field_wrapper">
+					<p class="field_label"><apex:outputText value="{!field.Label}" /></p>
+					<p class="field_value"><apex:outputField value="{!contact[field]}" /></p>
+				</div>
+			</apex:repeat>
+		</div>
+    </div>
+</apex:page>

@@ -1,0 +1,57 @@
+<apex:component selfClosing="true">
+    <script type="text/javascript">
+        var footerHeight = Math.floor(browserHeight * 0.05);
+        var appHeight = Math.floor(browserHeight * 0.85);
+        var tileGroupPadding = 30;
+    
+        $("#app_header").height(headerHeight).css("margin-left", tileGroupPadding + "px").css("margin-right", tileGroupPadding + "px");
+        $("#app_footer").height(footerHeight).css("margin-left", tileGroupPadding + "px").css("margin-right", tileGroupPadding + "px");
+        
+        var h2Height = $("h2").first().height();
+        var numberOfTileRows = (browserHeight < 800) ? 3 : (browserHeight < 1000) ? 4 : 5;
+        var tileHeight = Math.floor(((appHeight - h2Height) / numberOfTileRows) - 10);
+    
+        $(".tile").height(tileHeight);
+        $(".large_tile").width((tileHeight * 2) + 10);
+        $(".small_tile").width(tileHeight);
+        $(".tile_group").css("margin-left", tileGroupPadding + "px").height(appHeight);
+
+        var appWidth = tileGroupPadding;
+
+        $(".tile_group").each(function(index) {
+            var $section = $(this).children("section");
+            var numberOfChildRows = 0;
+            var previousTileSmall = false;
+            $section.children(".tile").each(function() {
+                numberOfChildRows += (!previousTileSmall) ? 1 : 
+                    ($(this).hasClass("large_tile")) ? 1 : 0;
+                
+                if ($(this).hasClass("small_tile") && previousTileSmall) {
+                    previousTileSmall = false;
+                }
+                else if ($(this).hasClass("small_tile")) {
+                    previousTileSmall = true;
+                }
+                else {
+                    previousTileSmall = false;
+                }
+            });
+
+            var $numberOfChildren = $section.children(".tile").size();
+            var numberOfColumns = Math.ceil(numberOfChildRows / numberOfTileRows);
+            var columnWidth = (tileHeight * 2) + 20;
+            var groupWidth = columnWidth * numberOfColumns;
+            appWidth += (groupWidth + tileGroupPadding);
+
+            $section.width(groupWidth).height((tileHeight + 10) * numberOfTileRows);
+            $section.css("-moz-column-gap", 0).css("-webkit-column-gap", 0).css("column-gap", 0);
+            $section.css({"-webkit-columns": (tileHeight * 2) + "px " + numberOfColumns});
+        });
+
+        $("#content_scroller").width(appWidth);
+
+        myScroll = new iScroll('app_content', { bounce:false});                    
+        document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    });
+    </script>
+</apex:component>

@@ -1,0 +1,24 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppEventController">
+    <div id="content_y_scroller">
+		<div class="record_header">
+			<p class="name"><apex:outputText value="{!event.Subject} {!event.StartDateTime} - {!event.EndDateTime}" /></p>
+            <p>                
+                <div class="half">
+                    <a href="{!IF(BEGINS(whoType,'contact'), $Page.AppContactView+'?id='+event.whoId, $Page.AppLeadView+'?id='+event.whoId)}" data-page-title="{!event.Subject}"> 
+                        <div class="image">
+                            <img src="{!IF(imageUrl != null, imageUrl, URLFOR($Resource.DefaultProfile))}" alt="" class="profile_picture float_left" />
+                        </div>
+                    </a>
+                </div>                
+            </p>
+		</div>
+		<div class="record_content">
+			<apex:repeat value="{!$ObjectType.Event.FieldSets.AppEventFields}" var="field">
+				<div class="field_wrapper">
+					<p class="field_label"><apex:outputText value="{!field.Label}" /></p>
+					<p class="field_value"><apex:outputField value="{!event[field]}" /></p>
+				</div>
+			</apex:repeat>
+		</div>
+    </div>
+</apex:page>

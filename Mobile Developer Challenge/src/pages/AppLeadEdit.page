@@ -1,0 +1,72 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false"  sidebar="false" standardStylesheets="false"  standardController="Lead" extensions="AppNavigationExtension,AppLeadExtension">
+    <c:AppNavigation />
+    <style>       
+        input[type="text"]{
+            border-radius: 5px; 
+            -moz-border-radius: 5px; 
+            -webkit-border-radius: 5px; 
+            border: 8px solid #A0E000;
+            color: #333;
+        }
+        
+        select {
+            border-radius: 5px; 
+            -moz-border-radius: 5px; 
+            -webkit-border-radius: 5px; 
+            border: 8px solid #A0E000;
+            color: #333;
+        }
+        
+        option {
+            color: #333;
+        }
+        
+        textarea {
+            border-radius: 5px; 
+            -moz-border-radius: 5px; 
+            -webkit-border-radius: 5px; 
+            border: 8px solid #A0E000;
+            color: #333;
+        }
+    </style>
+    
+    
+    
+                <div class="float_left" style="margin-right: 10px; margin-left:50px;">
+                    <img alt="{!Lead.name}" src="https://c.na9.content.force.com/profilephoto/005/T" />
+                </div>
+                <div class="float_left">
+                    <p class="first_name">{!Lead.Firstname}</p>
+                    <p class="last_name">{!Lead.Lastname}</p>
+                </div>
+                <div class="float_right" style="margin-right: 50px;">
+                    <p class="first_name"><a href="{!$Page.AppLeadView}?id={!Lead.Id}">Cancel</a></p>
+                </div>
+                 
+                 <apex:form id="leadEditForm">
+                    <section style="display:block;height:600px;overflow-y: auto;" class="clear" id="wrapper">
+                        <!--<iframe seamless="seamless" src="{!$Page.AppLeadEditForm}?id={!Lead.Id}&retURL={!$Page.AppLeadView}?id={!Lead.Id}" frameborder="0" class="clear centre" style="width:100%; overflow:hidden;" height="600px;" />-->
+                        <div style="width:100%; margin: 0 auto; overflow-y: auto;">
+                            <apex:repeat value="{!$ObjectType.Lead.FieldSets.AppLeadFileds}" var="f">
+                                
+                                <div style="display:inline; float:left; width:50%; text-align:right; margin-right:-20px; height:60px;">
+                                    <apex:outputText value="{!f.label}" style="padding-right: 20px; vertical-align:text-top;" />
+                                </div>
+                                <div style="display:inline; float:right; width:50%; text-align:left; height:60px;">
+                                    <apex:outputText value="            " />
+                                    <apex:inputField value="{!Lead[f]}" style="padding: 2px 10px; font-weight:bold;" /><br/>
+                                </div>  
+                            </apex:repeat>
+                        </div>
+                    </section>
+                    <div class="float_right" style="margin-right: 50px;">
+                        <apex:outputText id="test_section"></apex:outputText>
+                        <p class="first_name"><a href="{!URLFOR($Page.AppLeadView)}?id={!lead.Id}" onclick="test();">TEST</a></p>
+                        <p class="first_name"><apex:commandLink action="{!saveRecord}" >Save</apex:commandLink></p>
+                        <!--<p class="first_name"><a href="#" onclick="test()">Save</a></p>-->
+                    </div>
+                    
+                    <apex:actionFunction action="{!saveRecord}" name="test" rerender="test_section" />
+                </apex:form>    
+    
+</apex:page>

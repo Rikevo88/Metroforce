@@ -1,0 +1,12 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="AppMapController">
+    <div id="content_scroller">
+    	<section id="map_container">
+            <div id="map_canvas"></div>
+    	</section>
+    </div>
+    <apex:repeat value="{!geoMarkers}" var="geoMarker">
+    	<geoMarker style="display: none;" data-postcode="{!geoMarker.postcode}" data-title="{!geoMarker.title}" 
+    		data-object-type="{!geoMarker.objectType}" data-address="{!geoMarker.address}" 
+    		data-contact-details="{!geoMarker.contactDetails}" />
+    </apex:repeat>
+</apex:page>

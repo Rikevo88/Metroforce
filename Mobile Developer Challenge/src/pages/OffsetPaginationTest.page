@@ -1,0 +1,218 @@
+<apex:page docType="html-5.0" cache="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="OffsetPaginationController">
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSBasic)}" />
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSMetro)}" />
+        <link rel="stylesheet" type="text/css" href="{!URLFOR($Page.AppCSSThemeGreen)}" />
+<apex:composition template="{!$Page.AppTemplate}">
+        <!--
+        <apex:define name="page_title">Home</apex:define>
+        -->
+        <apex:define name="javascript">
+            <script type="text/javascript">
+                
+                $(document).ready(function() {
+                    renderPage();
+                    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+                
+                
+                    var timer = $.timer(
+                        function() {
+                            $(".tile_action_section").each(function(parentIndex) {
+                                var lastChild = $(this).children(":last");
+                                
+                                $(".tile_action_section").children().each(function(childIndex) {
+                                    if ($(this).is(":visible")) {
+                                        $(this).fadeOut(2000, function() {
+                                            if ($(this).html() != lastChild.html()) {
+                                                $(this).next(":hidden").fadeIn(2000);
+                                            }
+                                            else {
+                                                $(this).parent().children().first(":hidden").fadeIn(2000);
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        },
+                        4000,
+                        true
+                    );
+
+                    $(iScroll).bind("mouseup", function() { 
+                        var str;
+                        
+                        str = $('#content_scroller').css('-webkit-transform');                      
+                        
+                        var  list = str.split(',')
+                        
+                        var translated3dXpos = list[4];
+                        var scrollerWidth = $('#content_scroller').width();
+                        
+                        if((-translated3dXpos / scrollerWidth)*100 >= 30) {                        
+                            alert('need to load next set of records');
+                            loadMoreRecords();
+                        }
+                        
+                        $('#content_scroller').width = 5000;
+                        
+                        //list[4] += 200;                        
+                        //var newStr = list[0] + ',' + list[1] + ',' + list[2] + ',' + list[3] + ',' + list[4] + ',' + list[5];
+                        //alert(newStr);
+                        //$('#content_scroller').css('-webkit-transform') = newStr;
+                    });                    
+            });
+
+            function renderPage() {
+  
+                var browserWidth = window.innerWidth;
+                var browserHeight = window.innerHeight;
+            
+                var headerHeight = Math.floor(browserHeight * 0.1);
+                var footerHeight = Math.floor(browserHeight * 0.05);
+                var appHeight = Math.floor(browserHeight * 0.85);
+                var tileGroupPadding = 30;
+            
+                $("#app_header").height(headerHeight).css("margin-left", tileGroupPadding + "px").css("margin-right", tileGroupPadding + "px");
+                $("#app_footer").height(footerHeight).css("margin-left", tileGroupPadding + "px").css("margin-right", tileGroupPadding + "px");
+                
+                var h2Height = $("h2").first().height();
+                var numberOfTileRows = (browserHeight < 800) ? 3 : (browserHeight < 1000) ? 4 : 5;
+                var tileHeight = Math.floor(((appHeight - h2Height) / numberOfTileRows) - 10);
+            
+                $(".tile").height(tileHeight);
+                $(".large_tile").width((tileHeight * 2) + 10);
+                $(".small_tile").width(tileHeight);
+                $(".tile_group").css("margin-left", tileGroupPadding + "px").height(appHeight);
+
+                var appWidth = tileGroupPadding;
+
+                $(".tile_group").each(function(index) {
+                    var maxNumberOfCols = $(this).attr("data-max-cols");
+                    var $section = $(this).children("section");
+                    var numberOfChildRows = 0;
+                    var previousTileSmall = false;
+                    $section.children(".tile").each(function() {
+                        numberOfChildRows += (!previousTileSmall) ? 1 : 
+                            ($(this).hasClass("large_tile")) ? 1 : 0;
+                        
+                        if ($(this).hasClass("small_tile") && previousTileSmall) {
+                            previousTileSmall = false;
+                        }
+                        else if ($(this).hasClass("small_tile")) {
+                            previousTileSmall = true;
+                        }
+                        else {
+                            previousTileSmall = false;
+                        }
+                    });
+
+                    var $numberOfChildren = $section.children(".tile").size();
+//if (maxNumberOfCols == null) {
+                        var numberOfColumns = Math.ceil(numberOfChildRows / numberOfTileRows);
+//                    }
+//                    else {
+//                        var numberOfColumns = maxNumberOfCols;
+//                    }
+                    
+                    var columnWidth = (tileHeight * 2) + 20;
+                    var groupWidth = columnWidth * numberOfColumns;
+                    appWidth += (groupWidth + tileGroupPadding);
+
+                    $section.width(groupWidth).height((tileHeight + 10) * numberOfTileRows);
+                    $section.css("-moz-column-gap", 0).css("-webkit-column-gap", 0).css("column-gap", 0);
+                    $section.css({"-webkit-columns": (tileHeight * 2) + "px " + numberOfColumns});
+                });
+
+                $("#content_scroller").width(appWidth);
+
+                myScroll = new iScroll('app_content', { bounce:false});
+            }
+            
+            function loadMoreRecords() {
+            
+            }
+            </script>
+        </apex:define>
+        
+        <apex:define name="content">
+       
+            <div id="content_scroller">
+                 <apex:outputPanel id="loadRecords" onclick="renderPage()">
+                 
+                 
+                <c:AppMenu />
+               
+               
+                <apex:repeat value="{!tileGroups}" var="tileGroup" >
+                    <section class="tile_group float_left" data-max-cols="1">
+                        <header style="width: 100%;">
+                            <h2><apex:outputText value="{!tileGroup.header}" /></h2>
+                        </header>
+                        <section>
+                        
+                            <apex:repeat value="{!tileGroup.tiles}" var="tile">
+                                <apex:outputText escape="false" rendered="{!tile.largeTile}">
+                                    <article class="tile large_tile {!tile.tileStyle}">
+                                        <div class="tile_background">
+                                            <header>
+                                                <p><apex:outputText value="{!tile.header}" /></p>
+                                            </header>
+                                            <section class="content">
+                                                <div class="half">
+                                                    <div class="image">
+                                                        <img src="{!IF(tile.imageUrl != null, tile.imageUrl, IF(tile.tileStyle == 'account_tile', URLFOR($Resource.DefaultAccount), URLFOR($Resource.DefaultProfile)))}" alt="" />
+                                                    </div>
+                                                </div>
+                                                <div class="half">
+                                                    <apex:outputText escape="false" rendered="{!tile.actionFeed.size > 1}">
+                                                        <div class="tile_action_section">
+                                                            <apex:variable var="first" value="true" />
+                                                            <apex:repeat value="{!tile.actionFeed}" var="feedItem">
+                                                                <apex:outputText escape="false" rendered="{!first == 'true'}">
+                                                                    <p><apex:outputText value="{!feedItem}" /></p>
+                                                                </apex:outputText>
+                                                                <apex:outputText escape="false" rendered="{!first != 'true'}">
+                                                                    <p style="display: none;"><apex:outputText value="{!feedItem}" /></p>
+                                                                </apex:outputText>
+                                                                <apex:variable var="first" value="false" />
+                                                            </apex:repeat>
+                                                        </div>
+                                                    </apex:outputText>
+                                                    <apex:outputText escape="false" rendered="{!tile.actionFeed.size == 1}">
+                                                        <div>
+                                                            <p><apex:outputText value="{!tile.actionFeed[0]}" /></p>
+                                                        </div>
+                                                    </apex:outputText>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </article>
+                                </apex:outputText>
+                                <apex:outputText escape="false" rendered="{!!tile.largeTile}">
+                                    <article class="tile small_tile {!tile.tileStyle}">
+                                        <div class="tile_background">
+                                            <header>
+                                                <p><apex:outputText value="{!tile.header}" /></p>
+                                            </header>
+                                            <div class="image">
+                                                <img src="{!IF(tile.imageUrl != null, tile.imageUrl, IF(tile.tileStyle == 'account_tile', URLFOR($Resource.DefaultAccount), URLFOR($Resource.DefaultProfile)))}" alt="" />
+                                            </div>
+                                        </div>
+                                    </article>
+                                </apex:outputText>
+                            </apex:repeat>
+                        </section>
+                    </section>
+                </apex:repeat>
+                </apex:outputPanel>
+
+            </div>
+            
+        
+        
+        <apex:form >
+            <apex:actionFunction name="loadMoreRecords" action="{!loadMoreRecords}" reRender="loadRecords" onbeforedomupdate="renderPage()" oncomplete="renderPage()" />
+        </apex:form>
+        
+        </apex:define>
+    </apex:composition>
+</apex:page>

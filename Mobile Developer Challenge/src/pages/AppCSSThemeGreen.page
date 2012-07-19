@@ -1,0 +1,85 @@
+<apex:page cache="false" showHeader="false" sidebar="false" standardStylesheets="false" contentType="text/css">
+    /** Theme-specific (colours, backgrounds, etc.) Metro UI Styling **/
+    /** GREEN - http://www.colorcombos.com/color-schemes/7/ColorCombo7.html **/
+    /**
+        Background - #0F6D39
+        Font Colour - #FFFFFF
+        Tile 01 - #E5E4D7
+        Tile 01 - #FFCF79
+        Tile 01 - #92CD00
+    **/
+    * {
+        color: #FFFFFF;
+    }
+    body {
+        background: #0F6D39;
+    }
+    
+    /** Standard Tile **/
+    .tile p {
+        color: #0F6D39;
+    }
+    .tile p span {
+        color: #0F6D39;
+    }
+    .tile .tile_background {
+        background: #E5E4D7;
+    }
+    .tile .tile_background > header {
+        background: #D5D4C7;
+    }
+    
+    /** Account Tile **/
+    .account_tile .tile_background {
+        background: #FFCF79;
+    }
+    .account_tile .tile_background > header {
+        background: #EEBE68;
+    }
+    
+    /** Lead Tile **/
+    .lead_tile p {
+        color: #FFFFFF;
+    }
+    .lead_tile .tile_background {
+        background: #92CD00;
+    }
+    .lead_tile .tile_background > header {
+        background: #81BC00;
+    }
+    
+    /** Chatter Menu Tile **/
+    .chatter_tile p {
+        color: #FFFFFF;
+    }
+    .chatter_tile .tile_background {
+        background: #61CAFD;
+    }
+    .chatter_tile .tile_background > header {
+        background: #1898C1;
+    }
+    
+    /** Map Tile **/
+    .map_tile p {
+        color: #000000;
+    }
+    .map_tile .tile_background {
+        background: #FFFFFF;
+    }
+    .map_tile .tile_background > header {
+        background: #EEEEEE;
+    }
+    #map_canvas * {
+    	color: #000000;
+    }
+    
+    /** Viewing a Record **/
+    .record_content > .field_wrapper > .field_value {
+    	background: #ededed;
+    	border: 1px solid #121212;
+        color: #0F6D39;
+    }
+    .record_content > .field_wrapper > .field_value * {
+        color: #0F6D39;
+    }
+</apex:page>
